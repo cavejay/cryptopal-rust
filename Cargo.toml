@@ -1,0 +1,6 @@
+[package]
+name = "cryptopal"
+version = "0.1.0"
+authors = ["Michael Ball <michael@sablecliff.com>"]
+
+[dependencies]
