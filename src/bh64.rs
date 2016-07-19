@@ -2,23 +2,23 @@
 /// # Contains all the functions used for manipulating hex and base64
 ///
 
-pub fn hex_char_to_val(c: char) -> usize {
+fn hex_char_to_val(c: char) -> usize {
     let c2 = c.to_uppercase().collect::<Vec<_>>()[0];
     let hex_val = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
     hex_val.iter().position(|&r| r == c2).unwrap()
 }
 
-pub fn val_to_hex_char(v: usize) -> char {
+fn val_to_hex_char(v: usize) -> char {
     let hex_val = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
     hex_val[v]
 }
 
-pub fn base64_char_to_val(c: char) -> usize {
+fn base64_char_to_val(c: char) -> usize {
     let base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     base64_chars.find(c).unwrap()
 }
 
-pub fn val_to_base64_char(v: usize) -> char {
+fn val_to_base64_char(v: usize) -> char {
     let base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     base64_chars.chars().nth(v).unwrap()
 }
@@ -52,4 +52,29 @@ pub fn hex_to_base64(s: String) -> String {
         // println!("{}", sol);
     }
     sol
+}
+
+// produces an array of 16bit binary numbers that when put together create a single binary number 
+pub fn hex_to_binary(s: String) -> Vec<usize> {
+    let mut n = vec![0; 1];
+    let mut four = 0;
+    let mut i = 0;
+    let mut s_itr = s.chars();
+    let mut cur = s_itr.next().unwrap();
+    while true {
+        match s_itr.next() {
+            Some(j) => {
+                n[i] = n[i] + hex_char_to_val(j);
+                n[i] = n[i] << 4;
+                four += 1;
+                if four == 4 {
+                    four = 0;
+                    n.push(0);
+                    i += 1;
+                }
+            }, 
+            None => { break }
+        }
+    }
+    n
 }

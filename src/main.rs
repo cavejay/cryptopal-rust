@@ -6,7 +6,8 @@ fn main() {
     cryptopals::new_set(&mut s);
     //                    #, expected, result
     cryptopals::challenge(1, "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t", c1());
-    cryptopals::challenge(2, "746865206b696420646f6e277420706c6179", c1());
+    // cryptopals::challenge(2, "746865206b696420646f6e277420706c6179", c2());
+    c2();
     // cryptopals::new_set(&mut s);
 }
 
@@ -19,4 +20,7 @@ fn c1() -> String {
 fn c2() {
     let input = "1c0111001f010100061a024b53535009181c".to_string();
     let xor = "686974207468652062756c6c277320657965".to_string();
+
+    
+    println!("{:?}", bh64::hex_to_binary(input));
 }
