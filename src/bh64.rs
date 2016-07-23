@@ -2,7 +2,7 @@
 /// # Contains all the functions used for manipulating hex and base64
 ///
 
-fn hex_char_to_val(c: char) -> usize {
+pub fn hex_char_to_val(c: char) -> usize {
     let c2 = c.to_uppercase().collect::<Vec<_>>()[0];
     let hex_val = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
     hex_val.iter().position(|&r| r == c2).unwrap()
@@ -13,7 +13,7 @@ fn val_to_hex_char(v: usize) -> char {
     hex_val[v]
 }
 
-fn base64_char_to_val(c: char) -> usize {
+pub fn base64_char_to_val(c: char) -> usize {
     let base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     base64_chars.find(c).unwrap()
 }
@@ -55,14 +55,13 @@ pub fn hex_to_base64(s: String) -> String {
 }
 
 // produces an array of 16bit binary numbers that when put together create a single binary number 
-pub fn hex_to_value(s: String) -> Vec<usize> {
+pub fn hex_to_value(s: &String) -> Vec<usize> {
     let mut n = vec![0; 1];
     let mut i = 0;
     let mut s_itr = s.chars();
     loop {
         match s_itr.next() {
             Some(j) => {
-                println!("{}",j);
                 n[i] = n[i] + hex_char_to_val(j);
                 n.push(0);
                 i += 1;
@@ -73,7 +72,7 @@ pub fn hex_to_value(s: String) -> Vec<usize> {
     n
 }
 
-pub fn xor_hex_arrays(vec1: Vec<usize>, vec2: Vec<usize>) -> Vec<usize> {
+pub fn xor_hex_arrays(vec1: &Vec<usize>, vec2: &Vec<usize>) -> Vec<usize> {
     let mut xor = vec![0; vec1.len()];
     for (i, part) in vec1.iter().enumerate() {
         xor[i] = *part ^ vec2[i];
@@ -82,10 +81,19 @@ pub fn xor_hex_arrays(vec1: Vec<usize>, vec2: Vec<usize>) -> Vec<usize> {
     xor
 }
 
-pub fn value_to_hex(v: Vec<usize>) -> String {
+pub fn value_to_hex(v: &Vec<usize>) -> String {
     let mut ans = String::new();
     for part in v.iter() {
         ans.push(val_to_hex_char(*part));
+    }
+    ans.pop();
+    ans
+}
+
+pub fn value_to_b64(v: &Vec<usize>) -> String {
+    let mut ans = String::new();
+    for part in v.iter() {
+        ans.push(val_to_base64_char(*part));
     }
     ans.pop();
     ans
